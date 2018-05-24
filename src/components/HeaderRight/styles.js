@@ -6,6 +6,9 @@ const styles = StyleSheet.create({
     color: colors.darker,
     paddingRight: metrics.basePadding,
   },
+  loading: {
+    paddingRight: metrics.basePadding,
+  },
 });
 
 export default styles;

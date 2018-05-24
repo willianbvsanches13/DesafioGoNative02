@@ -11,7 +11,13 @@ import Closed from 'pages/Issues/Closed';
 import Open from 'pages/Issues/Open';
 
 const Routes = createStackNavigator({
-  Repositories: { screen: Repositories },
+  Repositories: {
+    screen: Repositories,
+    navigationOptions: ({ navigation }) => ({
+      headerTitle: <SearchInput navigation={navigation} />,
+      headerRight: <HeaderRight navigation={navigation} />,
+    }),
+  },
   Issues: {
     screen: createTabNavigator({
       All: { screen: All },
@@ -21,10 +27,6 @@ const Routes = createStackNavigator({
   },
 }, {
   initialRouteName: 'Repositories',
-  navigationOptions: ({ navigation }) => ({
-    headerTitle: <SearchInput />,
-    headerRight: <HeaderRight navigation={navigation} />,
-  }),
 });
 
 export default Routes;
