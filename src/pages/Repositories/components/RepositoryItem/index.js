@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import {
@@ -12,30 +12,49 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 import styles from './styles';
 
-const RepositoryItem = ({ item, press }) => (
-  <TouchableOpacity onPress={press} style={styles.container} >
-    <View style={styles.info} >
-      <Image style={styles.avatar} source={{ uri: item.avatar_url }} />
-      <View style={styles.description}>
-        <Text style={styles.title}>
-          { item.name.length > 27
-            ? item.name.substring(0, 27).concat('...')
-            : item.name }
-        </Text>
-        <Text style={styles.subTitle}>{ item.organization }</Text>
-      </View>
-    </View>
-    <Icon name="chevron-right" size={20} style={styles.icon} />
-  </TouchableOpacity>
-);
+export default class RepositoryItem extends Component {
+  static propTypes = {
+    item: PropTypes.shape({
+      avatar_url: PropTypes.string,
+      name: PropTypes.string,
+      organization: PropTypes.string,
+    }).isRequired,
+    navigation: PropTypes.shape({
+      setParams: PropTypes.func,
+      navigate: PropTypes.func,
+    }).isRequired,
+  }
 
-RepositoryItem.propTypes = {
-  item: PropTypes.shape({
-    avatar_url: PropTypes.string,
-    name: PropTypes.string,
-    organization: PropTypes.string,
-  }).isRequired,
-  press: PropTypes.func.isRequired,
-};
+  issuesNavigate = () => {
+    try {
+      this.props.navigation.setParams({ repositoryItem: this.props.item.name });
+      this.props.navigation.navigate({
+        routeName: 'Issues',
+        params: {
+          repositoryItem: this.props.item.name,
+        },
+      });
+    } catch (err) {
+      console.tron.log(err);
+    }
+  }
 
-export default RepositoryItem;
+  render() {
+    return (
+      <TouchableOpacity onPress={this.issuesNavigate} style={styles.container} >
+        <View style={styles.info} >
+          <Image style={styles.avatar} source={{ uri: this.props.item.avatar_url }} />
+          <View style={styles.description}>
+            <Text style={styles.title}>
+              { this.props.item.name.length > 20
+                ? this.props.item.name.substring(0, 20).concat('...')
+                : this.props.item.name }
+            </Text>
+            <Text style={styles.subTitle}>{ this.props.item.organization }</Text>
+          </View>
+        </View>
+        <Icon name="chevron-right" size={20} style={styles.icon} />
+      </TouchableOpacity>
+    );
+  }
+}

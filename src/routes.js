@@ -1,14 +1,14 @@
 import React from 'react';
-import { createStackNavigator, createTabNavigator } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation';
 
+
+import Header from 'pages/Issues/components/Header';
 import HeaderRight from 'components/HeaderRight';
 import SearchInput from 'components/SearchInput';
 
 import Repositories from 'pages/Repositories';
 
-import All from 'pages/Issues/All';
-import Closed from 'pages/Issues/Closed';
-import Open from 'pages/Issues/Open';
+import Issues from 'pages/Issues';
 
 const Routes = createStackNavigator({
   Repositories: {
@@ -19,10 +19,9 @@ const Routes = createStackNavigator({
     }),
   },
   Issues: {
-    screen: createTabNavigator({
-      All: { screen: All },
-      Closed: { screen: Closed },
-      Open: { screen: Open },
+    screen: Issues,
+    navigationOptions: ({ navigation }) => ({
+      header: <Header navigation={navigation} />,
     }),
   },
 }, {

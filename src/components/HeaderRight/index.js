@@ -21,22 +21,7 @@ export default class HeaderRight extends Component {
   }
 
   state = {
-    repository: '',
     loading: false,
-  }
-
-  componentDidMount() {
-    this.verifyRepository();
-  }
-
-  verifyRepository = () => {
-    const { params } = this.props.navigation.state;
-
-    if (params === undefined) return;
-
-    if (params.repository.length === 0) return;
-
-    this.setState({ repository: params.repository });
   }
 
   checkRepositoryExists = async (repository) => {
@@ -74,11 +59,9 @@ export default class HeaderRight extends Component {
     this.setState({ loading: true });
 
     try {
-      await this.verifyRepository();
+      if (this.props.navigation.state.params.repository === '') return;
 
-      if (this.state.repository === '') return;
-
-      const repo = await this.checkRepositoryExists(this.state.repository);
+      const repo = await this.checkRepositoryExists(this.props.navigation.state.params.repository);
 
       await this.saveRepository(repo);
 

@@ -46,7 +46,7 @@ export default class Repositories extends Component {
     }
   }
 
-  renderListItem = ({ item }) => <RepositoryItem item={item} press={() => this.props.navigation.navigate('Issues')} />;
+renderListItem = ({ item }) => <RepositoryItem navigation={this.props.navigation} item={item} />;
 
   renderList = () => (
     <FlatList
